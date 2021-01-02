@@ -75,6 +75,7 @@ $(function() {
 <a href="#details">Más...</a></p>
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;<a class="el" href="termcolor_8hpp_source.html">termcolor.hpp</a>&quot;</code><br />
@@ -97,13 +98,21 @@ Funciones</h2></td></tr>
 <tr class="memitem:ad02d883b4d6a33d8c18505cb21bc1c99"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#ad02d883b4d6a33d8c18505cb21bc1c99">Presentacion</a> (void)</td></tr>
 <tr class="memdesc:ad02d883b4d6a33d8c18505cb21bc1c99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función para mostrar la presentación del programa.  <a href="_proyecto__final_8cpp.html#ad02d883b4d6a33d8c18505cb21bc1c99">Más...</a><br /></td></tr>
 <tr class="separator:ad02d883b4d6a33d8c18505cb21bc1c99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefee47d381da3537ceaf7d7092723683"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#aefee47d381da3537ceaf7d7092723683">VisualizarMenu</a> (const string &amp;, const <a class="el" href="_proyecto__final_8cpp.html#a3d4518c3d12a3384eb39f8e3c3d4214c">Menu</a> &amp;)</td></tr>
+<tr class="memdesc:aefee47d381da3537ceaf7d7092723683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función Visualización Menú.  <a href="_proyecto__final_8cpp.html#aefee47d381da3537ceaf7d7092723683">Más...</a><br /></td></tr>
+<tr class="separator:aefee47d381da3537ceaf7d7092723683"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a345665984ae7e7f59a42bcedd0388397"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#a345665984ae7e7f59a42bcedd0388397">LeerCsv</a> (vector&lt; vector&lt; string &gt;&gt; &amp;, const string &amp;, char)</td></tr>
+<tr class="memdesc:a345665984ae7e7f59a42bcedd0388397"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función para lectura genérica de los csv.  <a href="_proyecto__final_8cpp.html#a345665984ae7e7f59a42bcedd0388397">Más...</a><br /></td></tr>
+<tr class="separator:a345665984ae7e7f59a42bcedd0388397"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="memdesc:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función principal del proyecto.  <a href="_proyecto__final_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">Más...</a><br /></td></tr>
 <tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Descripción detallada</h2>
 <div class="textblock"><p>Práctica final de informática.<br  />
  1ºGIET Escuela Superior Tecnica de Ingeniería (ETSE-UV). </p>
 <dl class="section author"><dt>Autor</dt><dd>WINSRROW </dd></dl>
+<dl class="section version"><dt>Versión</dt><dd>1.0 </dd></dl>
 <dl class="section date"><dt>Fecha</dt><dd>December 2020 </dd></dl>
 </div><h2 class="groupheader">Documentación de los 'typedefs'</h2>
 <a id="a3d4518c3d12a3384eb39f8e3c3d4214c"></a>
@@ -123,6 +132,52 @@ Funciones</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Documentación de las funciones</h2>
+<a id="a345665984ae7e7f59a42bcedd0388397"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a345665984ae7e7f59a42bcedd0388397">&#9670;&nbsp;</a></span>LeerCsv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool LeerCsv </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; vector&lt; string &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>parsed_csv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>nombre_archivo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>delimitador</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función para lectura genérica de los csv. </p>
+<p>Función para la lectura de cualquier csv genérico necesario en el proyecto.</p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parsed_csv</td><td>Vector bidimensional del csv leido. </td></tr>
+    <tr><td class="paramname">nombre_archivo</td><td>Nombre del archivo a leer. </td></tr>
+    <tr><td class="paramname">delimiter</td><td>Delimitador para los campos del CSV (, ; . etc).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>Booleano apertura del archivo. </dd></dl>
+
+</div>
+</div>
 <a id="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&nbsp;</a></span>main()</h2>
 
@@ -137,6 +192,9 @@ Funciones</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Función principal del proyecto. </p>
+<dl class="section return"><dt>Devuelve</dt><dd></dd></dl>
 
 </div>
 </div>
@@ -157,7 +215,45 @@ Funciones</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Función para mostrar la presentación del programa. </p>
-<p>Función para mostrar el funcionamiento y datos del proyecto. </p>
+
+</div>
+</div>
+<a id="aefee47d381da3537ceaf7d7092723683"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefee47d381da3537ceaf7d7092723683">&#9670;&nbsp;</a></span>VisualizarMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int VisualizarMenu </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>titulo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_proyecto__final_8cpp.html#a3d4518c3d12a3384eb39f8e3c3d4214c">Menu</a> &amp;&#160;</td>
+          <td class="paramname"><em>menu</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función Visualización Menú. </p>
+<p>Funcion para la visualización de los menús haciendo uso de el tipo de dato Menu con la posibilidad de añadir un título.</p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">menu</td><td>Menu a visualizar. </td></tr>
+    <tr><td class="paramname">titulo</td><td>Titulo del menú.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>valor de la posición del menú seleccionado siempre y cuando el valor introducido sea valido. </dd></dl>
 
 </div>
 </div>
