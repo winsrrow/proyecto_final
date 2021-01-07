@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['visualizarmenu_25',['VisualizarMenu',['../_proyecto__final_8cpp.html#aefee47d381da3537ceaf7d7092723683',1,'Proyecto_final.cpp']]]
+  ['termcolor_2ehpp_37',['termcolor.hpp',['../termcolor_8hpp.html',1,'']]],
+  ['titulo_38',['titulo',['../struct_libro.html#a3b2a43085615a8075b2256ae7175eb88',1,'Libro']]]
 ];

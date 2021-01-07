@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['paginas_49',['paginas',['../struct_libro.html#a6a6384f31bb2918a21f3f4351b704f6f',1,'Libro']]],
-  ['prestados_50',['prestados',['../struct_libro.html#ad12366363b799e4ec2068c5a85790bc7',1,'Libro']]]
+  ['mes_74',['mes',['../struct_fecha.html#a8d3183b6b67d115a0ef5dcb7986280f3',1,'Fecha']]],
+  ['minuto_75',['minuto',['../struct_fecha.html#af9a92231e6aafa4a7cf62a0d5efe5caf',1,'Fecha']]]
 ];

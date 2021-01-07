@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['presentacion_37',['Presentacion',['../_proyecto__final_8cpp.html#ad02d883b4d6a33d8c18505cb21bc1c99',1,'Proyecto_final.cpp']]]
+  ['isbnexist_54',['IsbnExist',['../_proyecto__final_8cpp.html#a063b94a51222099a0aeb873569990c42',1,'Proyecto_final.cpp']]]
 ];

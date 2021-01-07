@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['mes_47',['mes',['../struct_fecha.html#a8d3183b6b67d115a0ef5dcb7986280f3',1,'Fecha']]],
-  ['minuto_48',['minuto',['../struct_fecha.html#af9a92231e6aafa4a7cf62a0d5efe5caf',1,'Fecha']]]
+  ['letra_72',['letra',['../struct_dni.html#af1738845d3328f7da50464d91eba940d',1,'Dni']]],
+  ['libros_73',['libros',['../struct_cliente.html#ad1135d0d2485904ea47bb3a40d8b52a7',1,'Cliente']]]
 ];

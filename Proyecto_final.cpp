@@ -8,7 +8,6 @@
  * \date   December 2020
  *********************************************************************/
 
-
 // Inicio include. 
 #include <iostream>
 #include <iomanip>
@@ -70,7 +69,7 @@ struct LibroPrestado
 {
 	string ISBN = ""; //!< String conteniendo el ISBN del libro prestado.
 	Fecha prestamo;	  //!< Instancia del struct de tipo fecha para almacenar la fecha a la que se realizó el préstamo.
-	Fecha devolución; //!< Instancia del struct de tipo fecha para almacenar la fecha en que se debe devolver el libro.
+	Fecha devolucion; //!< Instancia del struct de tipo fecha para almacenar la fecha en que se debe devolver el libro.
 };
 
 /*!
@@ -99,26 +98,28 @@ typedef vector<string> Menu; //!< Tipo de dato menú para especificar que los ve
     // Función de despedida.
 
 	// Inicio funciones de muestra de datos
-	void MostrarLibro(const vector<Libro>&, int);   //!< \brief Función visualización datos libro.
-	void MostrarLibros(const vector<Libro>&);  //!< \brief Función visualización contenido biblioteca.
-	string Estrellitas(unsigned int);
-	// Fin funciones de muestra de datos
+	void MostrarLibro       (const vector<Libro>&,          int                         );  //!< \brief Función visualización datos libro.
+	void MostrarLibros      (const vector<Libro>&                                       );  //!< \brief Función visualización contenido biblioteca.
+	string Estrellitas      (unsigned int                                               );
+	// Fin funciones de muestra de datos										    
+																				    
+	// Inicio funciones recogida de datos del usuario.							    
+	int VisualizarMenu      (const string&,                 const Menu&                 );
+	void anadirLibro        (vector<Libro>&                                             );
+	// Fin funciones recogida de datos del usuario.								    
 	
-	// Inicio funciones recogida de datos del usuario.
-	int VisualizarMenu(const string&, const Menu&);
-	// Fin funciones recogida de datos del usuario.
-	void anadirLibro(vector<Libro>& biblioteca);
-	// Inicio funciones de interacción con archivos.
-	bool LeerCsv(vector<vector<string>>&, const string&, char);
-	bool EscribirCsv(vector<vector<string>>& bi_vector, const string& nombre_archivo, char delimitador);
-	// Fin funciones de interacción con archivos.
-
-	// Inicio funciones procesado de datos.
-	void BVectorToBiblioteca(const vector<vector<string>>&, vector<Libro>&);
-	void BibliotecaToBVector(const vector<Libro>&, vector<vector<string>>&);
-	bool IsbnExist(const vector<Libro>&, const string&, int);
-	bool DniCorrecto(Dni);
-	char LetraDni(unsigned int);
+	// Inicio funciones de interacción con archivos.							    
+	bool LeerCsv            (vector<vector<string>>&,       const string&,          char);
+	bool EscribirCsv        (vector<vector<string>>&,       const string&,          char);
+	// Fin funciones de interacción con archivos.								    
+																				    
+	// Inicio funciones procesado de datos.										    
+	void BVectorToBiblioteca(const vector<vector<string>>&, vector<Libro>&              );
+	void BibliotecaToBVector(const vector<Libro>&,          vector<vector<string>>&     );
+	void BVectorToClientes  (const vector<vector<string>>&, vector<Cliente>&            );
+	bool IsbnExist          (const vector<Libro>&,          const string&,          int );
+	bool DniCorrecto        (Dni                                                        );
+	char LetraDni           (unsigned int                                               );
 	// Fin funciones procesado de datos.
 
 // Fin cabeceras de las funciones incluidas en este archivo.
@@ -136,6 +137,8 @@ int main()
 	Dni nuevo_dni;
 	vector<vector<string>> data;
 	vector<Libro> biblioteca;
+	vector<Cliente> clientes;
+
 	string data_string = "";
 	string archivo_libros = "archivos/libros.csv";
 	string archivo_gente = "archivos/listado_gente.csv";
@@ -379,7 +382,7 @@ int main()
 				biblioteca[aux_var1].prestados--;
 
 				// BibliotecaToBVector(biblioteca, data);  // REHACER
-				// EscribirCsv(data, archivo_libros, ';'); // REHACER
+				EscribirCsv(data, archivo_gente, ';'); // REHACER
 
 				cout << " El libro \"" << biblioteca[aux_var1].titulo << "\"  con ISBN \"" << biblioteca[aux_var1].isbn << "\"  ha sido prestado a la persona con DNI \"" << nuevo_dni.numero << nuevo_dni.letra << "\"." << endl;
 				system("PAUSE");
@@ -613,7 +616,6 @@ string Estrellitas(unsigned int num)
 
 // Inicio funciones recogida de datos del usuario.
 
-//!< \brief Función Visualización Menú.
 /*!
  * 
  * Funcion para la visualización de los menús haciendo uso de el tipo de dato Menu con la posibilidad de añadir un título.
@@ -868,6 +870,51 @@ void BibliotecaToBVector(const vector<Libro>& biblioteca, vector<vector<string>>
 }
 
 /*!
+ * Función de procesamiento de datos de vector bidimensional a vector de clientes.
+ * 
+ * \param bi_vector Vector bidimensional que contiene la información a procesar.
+ * \param clientes  Vector de salida con los datos procesados.
+ */
+void BVectorToClientes(const vector<vector<string>>& bi_vector, vector<Cliente>& clientes)
+{
+	// Variables locales de la función.
+	Cliente nuevo_cliente;
+	LibroPrestado nuevo_libro;
+	unsigned short contador = 0;
+	// Variables locales de la función.
+
+	for (unsigned int i = 0; i < bi_vector.size(); i++) // Iteración sobre la primera dimensión del vector.
+	{
+		nuevo_cliente.dni.numero = stoi(bi_vector[i][0]);
+		for (unsigned int  j = 1; j < bi_vector[i].size(); j++) // Iteración sobre la segunda dimensión del vector.
+		{
+			if      (contador == 0) nuevo_libro.ISBN            =                     bi_vector[i][j]  ; // Condición para la correcta creación del libro a leer.
+			else if (contador == 1) nuevo_libro.prestamo.dia    = unsigned short(stoi(bi_vector[i][j])); // Condición para la correcta creación del libro a leer.
+			else if (contador == 2) nuevo_libro.prestamo.mes    = unsigned short(stoi(bi_vector[i][j])); // Condición para la correcta creación del libro a leer.
+			else if (contador == 3) nuevo_libro.prestamo.anyo   =                stoi(bi_vector[i][j]) ; // Condición para la correcta creación del libro a leer.
+			else if (contador == 4) nuevo_libro.devolucion.dia  = unsigned short(stoi(bi_vector[i][j])); // Condición para la correcta creación del libro a leer.
+			else if (contador == 5) nuevo_libro.devolucion.mes  = unsigned short(stoi(bi_vector[i][j])); // Condición para la correcta creación del libro a leer.
+			else if (contador == 6) nuevo_libro.devolucion.anyo =                stoi(bi_vector[i][j]) ; // Condición para la correcta creación del libro a leer.
+
+			contador++; // Incremento de la variable contador.
+
+			if (contador == 7)
+			{
+				nuevo_cliente.libros.push_back(nuevo_libro);
+				contador = 0;
+			}
+		}
+	}
+}
+
+
+void ClientesToBVector(const vector<Cliente>& clientes, vector<vector<string>>& bi_vector)
+{
+
+}
+
+
+/*!
  * Función para determinar si el libro existe en base al isbn.
  * 
  * \param  biblioteca Biblioteca conteniendo el conjunto de libros.
@@ -924,11 +971,3 @@ char LetraDni(unsigned int numero)
 }
 // Verificación de dni correcto basado en datos proporcionados por el ministerio del interior.
 // Fin funciones procesado de datos.
-
-
-
-
-
-
-
-

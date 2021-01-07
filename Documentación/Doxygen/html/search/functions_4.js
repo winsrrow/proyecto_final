@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['main_34',['main',['../_proyecto__final_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'Proyecto_final.cpp']]],
-  ['mostrarlibro_35',['MostrarLibro',['../_proyecto__final_8cpp.html#a5f6190663b24e35c440bf0d543e32983',1,'Proyecto_final.cpp']]],
-  ['mostrarlibros_36',['MostrarLibros',['../_proyecto__final_8cpp.html#a8f2749be6dbba74f0499dd3600d26666',1,'Proyecto_final.cpp']]]
+  ['escribircsv_52',['EscribirCsv',['../_proyecto__final_8cpp.html#af93f07c6f87a65bad0dc173fc1eb6cee',1,'Proyecto_final.cpp']]],
+  ['estrellitas_53',['Estrellitas',['../_proyecto__final_8cpp.html#a20320f8a5c54ce11dcb7ce5240796f31',1,'Proyecto_final.cpp']]]
 ];

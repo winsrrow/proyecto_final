@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['libro_27',['Libro',['../struct_libro.html',1,'']]]
+  ['dni_41',['Dni',['../struct_dni.html',1,'']]]
 ];

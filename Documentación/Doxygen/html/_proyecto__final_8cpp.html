@@ -74,6 +74,7 @@ $(function() {
  1ºGIET Escuela Superior Tecnica de Ingeniería (ETSE-UV).  
 <a href="#details">Más...</a></p>
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
@@ -85,6 +86,12 @@ Clases</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fecha.html">Fecha</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_libro.html">Libro</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_dni.html">Dni</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_libro_prestado.html">LibroPrestado</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_cliente.html">Cliente</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -107,19 +114,30 @@ Funciones</h2></td></tr>
 <tr class="memitem:a8f2749be6dbba74f0499dd3600d26666"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#a8f2749be6dbba74f0499dd3600d26666">MostrarLibros</a> (const vector&lt; <a class="el" href="struct_libro.html">Libro</a> &gt; &amp;)</td></tr>
 <tr class="memdesc:a8f2749be6dbba74f0499dd3600d26666"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función visualización contenido biblioteca.  <a href="_proyecto__final_8cpp.html#a8f2749be6dbba74f0499dd3600d26666">Más...</a><br /></td></tr>
 <tr class="separator:a8f2749be6dbba74f0499dd3600d26666"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefee47d381da3537ceaf7d7092723683"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#aefee47d381da3537ceaf7d7092723683">VisualizarMenu</a> (const string &amp;, const <a class="el" href="_proyecto__final_8cpp.html#a3d4518c3d12a3384eb39f8e3c3d4214c">Menu</a> &amp;)</td></tr>
-<tr class="memdesc:aefee47d381da3537ceaf7d7092723683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función Visualización Menú.  <a href="_proyecto__final_8cpp.html#aefee47d381da3537ceaf7d7092723683">Más...</a><br /></td></tr>
-<tr class="separator:aefee47d381da3537ceaf7d7092723683"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20320f8a5c54ce11dcb7ce5240796f31"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#a20320f8a5c54ce11dcb7ce5240796f31">Estrellitas</a> (unsigned int)</td></tr>
+<tr class="separator:a20320f8a5c54ce11dcb7ce5240796f31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b3fd10ca2b0b642a2d2451823b93327"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#a9b3fd10ca2b0b642a2d2451823b93327">VisualizarMenu</a> (const string &amp;titulo, const <a class="el" href="_proyecto__final_8cpp.html#a3d4518c3d12a3384eb39f8e3c3d4214c">Menu</a> &amp;menu)</td></tr>
+<tr class="memdesc:a9b3fd10ca2b0b642a2d2451823b93327"><td class="mdescLeft">&#160;</td><td class="mdescRight">&lt;  <a href="_proyecto__final_8cpp.html#a9b3fd10ca2b0b642a2d2451823b93327">Más...</a><br /></td></tr>
+<tr class="separator:a9b3fd10ca2b0b642a2d2451823b93327"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa88187292462ce9aaa9ee77976216d29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#aa88187292462ce9aaa9ee77976216d29">anadirLibro</a> (vector&lt; <a class="el" href="struct_libro.html">Libro</a> &gt; &amp;biblioteca)</td></tr>
+<tr class="separator:aa88187292462ce9aaa9ee77976216d29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a345665984ae7e7f59a42bcedd0388397"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#a345665984ae7e7f59a42bcedd0388397">LeerCsv</a> (vector&lt; vector&lt; string &gt;&gt; &amp;, const string &amp;, char)</td></tr>
-<tr class="memdesc:a345665984ae7e7f59a42bcedd0388397"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función para lectura genérica de los csv.  <a href="_proyecto__final_8cpp.html#a345665984ae7e7f59a42bcedd0388397">Más...</a><br /></td></tr>
 <tr class="separator:a345665984ae7e7f59a42bcedd0388397"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af93f07c6f87a65bad0dc173fc1eb6cee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#af93f07c6f87a65bad0dc173fc1eb6cee">EscribirCsv</a> (vector&lt; vector&lt; string &gt;&gt; &amp;bi_vector, const string &amp;nombre_archivo, char delimitador)</td></tr>
+<tr class="separator:af93f07c6f87a65bad0dc173fc1eb6cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39faae1d818b0b2d6d2421d0bd03f10e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#a39faae1d818b0b2d6d2421d0bd03f10e">BVectorToBiblioteca</a> (const vector&lt; vector&lt; string &gt;&gt; &amp;, vector&lt; <a class="el" href="struct_libro.html">Libro</a> &gt; &amp;)</td></tr>
 <tr class="separator:a39faae1d818b0b2d6d2421d0bd03f10e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07ec46b4c49b8b0b61ce13dd59e75221"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#a07ec46b4c49b8b0b61ce13dd59e75221">BibliotecaToBVector</a> (const vector&lt; <a class="el" href="struct_libro.html">Libro</a> &gt; &amp;, vector&lt; vector&lt; string &gt;&gt; &amp;)</td></tr>
+<tr class="separator:a07ec46b4c49b8b0b61ce13dd59e75221"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a063b94a51222099a0aeb873569990c42"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#a063b94a51222099a0aeb873569990c42">IsbnExist</a> (const vector&lt; <a class="el" href="struct_libro.html">Libro</a> &gt; &amp;, const string &amp;, int)</td></tr>
+<tr class="separator:a063b94a51222099a0aeb873569990c42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23b6a471948b310875992cd9d15c4dd3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#a23b6a471948b310875992cd9d15c4dd3">DniCorrecto</a> (<a class="el" href="struct_dni.html">Dni</a>)</td></tr>
+<tr class="separator:a23b6a471948b310875992cd9d15c4dd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebe7ab74c7f112f50e19654619252a1c"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#aebe7ab74c7f112f50e19654619252a1c">LetraDni</a> (unsigned int)</td></tr>
+<tr class="separator:aebe7ab74c7f112f50e19654619252a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
 <tr class="memdesc:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función principal del proyecto.  <a href="_proyecto__final_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">Más...</a><br /></td></tr>
 <tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa88187292462ce9aaa9ee77976216d29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_proyecto__final_8cpp.html#aa88187292462ce9aaa9ee77976216d29">anadirLibro</a> (vector&lt; <a class="el" href="struct_libro.html">Libro</a> &gt; &amp;biblioteca)</td></tr>
-<tr class="separator:aa88187292462ce9aaa9ee77976216d29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Descripción detallada</h2>
 <div class="textblock"><p>Práctica final de informática.<br  />
@@ -163,6 +181,42 @@ Funciones</h2></td></tr>
 <dl class="params"><dt>Parámetros</dt><dd>
   <table class="params">
     <tr><td class="paramname">libreria</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a07ec46b4c49b8b0b61ce13dd59e75221"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07ec46b4c49b8b0b61ce13dd59e75221">&#9670;&nbsp;</a></span>BibliotecaToBVector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BibliotecaToBVector </td>
+          <td>(</td>
+          <td class="paramtype">const vector&lt; <a class="el" href="struct_libro.html">Libro</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>biblioteca</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; string &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>bi_vector</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Función para convertir el vector biblioteca en un vector bidimensional para guardarlo en un archivo.</p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">biblioteca</td><td>Vector conteniendo toda la información de los libros. </td></tr>
+    <tr><td class="paramname">bi_vector</td><td>vector bidimensional al que se guardará la información. </td></tr>
   </table>
   </dd>
 </dl>
@@ -224,6 +278,145 @@ Funciones</h2></td></tr>
 
 </div>
 </div>
+<a id="a23b6a471948b310875992cd9d15c4dd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23b6a471948b310875992cd9d15c4dd3">&#9670;&nbsp;</a></span>DniCorrecto()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool DniCorrecto </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_dni.html">Dni</a>&#160;</td>
+          <td class="paramname"><em>dni</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Función de verificación de un DNI español en base a: <a href="http://www.interior.gob.es/web/servicios-al-ciudadano/dni/calculo-del-digito-de-control-del-nif-nie">http://www.interior.gob.es/web/servicios-al-ciudadano/dni/calculo-del-digito-de-control-del-nif-nie</a></p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dni</td><td>Struct de un DNI (numero + letra). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>Booleano indicando si el DNI es correcto. </dd></dl>
+
+</div>
+</div>
+<a id="af93f07c6f87a65bad0dc173fc1eb6cee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af93f07c6f87a65bad0dc173fc1eb6cee">&#9670;&nbsp;</a></span>EscribirCsv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EscribirCsv </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; vector&lt; string &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>bi_vector</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>nombre_archivo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>delimitador</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Función para la escritura de vectores bidimensionales en archivos.</p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bi_vector</td><td>Vector bidimensional a escribir. </td></tr>
+    <tr><td class="paramname">nombre_archivo</td><td>Nombre ( o ruta completa + nombre) del archivo al que se pretende escribir. </td></tr>
+    <tr><td class="paramname">delimitador</td><td>Delimitador deseado para la escritura del archivo. (ej: ; , . ) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>Boleando indicando si se ha podido realizar correctamente la apertura del archivo. </dd></dl>
+
+</div>
+</div>
+<a id="a20320f8a5c54ce11dcb7ce5240796f31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20320f8a5c54ce11dcb7ce5240796f31">&#9670;&nbsp;</a></span>Estrellitas()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Estrellitas </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>num</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Función que me pareció util para facilitarme la vida a la hora de hacer lineas de estrellitas "dinámicas";</p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">num</td><td>Número de estrellas a printar.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>ESTRELLITAAAAAS (cadena de texto conteniendo " *" las veces que haga falta). </dd></dl>
+
+</div>
+</div>
+<a id="a063b94a51222099a0aeb873569990c42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a063b94a51222099a0aeb873569990c42">&#9670;&nbsp;</a></span>IsbnExist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool IsbnExist </td>
+          <td>(</td>
+          <td class="paramtype">const vector&lt; <a class="el" href="struct_libro.html">Libro</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>biblioteca</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>isbn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>posicion</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Función para determinar si el libro existe en base al isbn.</p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">biblioteca</td><td>Biblioteca conteniendo el conjunto de libros. </td></tr>
+    <tr><td class="paramname">isbn</td><td>ISBN del libro a que se desea saber si existe. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>true si el libro existe o false si no. </dd></dl>
+
+</div>
+</div>
 <a id="a345665984ae7e7f59a42bcedd0388397"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a345665984ae7e7f59a42bcedd0388397">&#9670;&nbsp;</a></span>LeerCsv()</h2>
 
@@ -255,8 +448,6 @@ Funciones</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Función para lectura genérica de los csv. </p>
 <p>Función para la lectura de cualquier csv genérico necesario en el proyecto.</p>
 <dl class="params"><dt>Parámetros</dt><dd>
   <table class="params">
@@ -267,6 +458,32 @@ Funciones</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>Booleano apertura del archivo. </dd></dl>
+
+</div>
+</div>
+<a id="aebe7ab74c7f112f50e19654619252a1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebe7ab74c7f112f50e19654619252a1c">&#9670;&nbsp;</a></span>LetraDni()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char LetraDni </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>numero</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Función para calcular la letra de un DNI español.</p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">numero</td><td>Número del DNI. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>Letra que corresponde al número introducido. </dd></dl>
 
 </div>
 </div>
@@ -373,8 +590,8 @@ Funciones</h2></td></tr>
 
 </div>
 </div>
-<a id="aefee47d381da3537ceaf7d7092723683"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aefee47d381da3537ceaf7d7092723683">&#9670;&nbsp;</a></span>VisualizarMenu()</h2>
+<a id="a9b3fd10ca2b0b642a2d2451823b93327"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b3fd10ca2b0b642a2d2451823b93327">&#9670;&nbsp;</a></span>VisualizarMenu()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -399,12 +616,13 @@ Funciones</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Función Visualización Menú. </p>
+<p>&lt; </p>
+<p>Función Visualización Menú.</p>
 <p>Funcion para la visualización de los menús haciendo uso de el tipo de dato Menu con la posibilidad de añadir un título.</p>
 <dl class="params"><dt>Parámetros</dt><dd>
   <table class="params">
-    <tr><td class="paramname">menu</td><td>Menu a visualizar. </td></tr>
-    <tr><td class="paramname">titulo</td><td>Titulo del menú.</td></tr>
+    <tr><td class="paramname">titulo</td><td>Titulo del menú. </td></tr>
+    <tr><td class="paramname">menu</td><td>Menu a visualizar.</td></tr>
   </table>
   </dd>
 </dl>

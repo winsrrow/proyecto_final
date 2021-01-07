@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['titulo_51',['titulo',['../struct_libro.html#a3b2a43085615a8075b2256ae7175eb88',1,'Libro']]]
+  ['numero_76',['numero',['../struct_dni.html#afcf15305d3c8e2613ede0d209fb4ae83',1,'Dni']]]
 ];
