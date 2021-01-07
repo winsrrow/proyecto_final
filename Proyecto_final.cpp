@@ -20,11 +20,6 @@
 #include "termcolor.hpp" //!< Librería para el coloreado de la terminal.
 // Fin include.
 
-// Constantes globales
-const string archivo_libros = "archivos/libros.csv";
-const string archivo_gente  = "archivos/listado_gente.csv";
-// Constantes globales
-
 // Inicio asignaciones "using".
 using namespace std;
 using namespace termcolor;
@@ -44,7 +39,6 @@ struct Fecha
 	unsigned short minuto = 0;	  //!< Minuto del día.
 };
 
-
 /** 
 * Información sobre el libro.
 */
@@ -59,12 +53,40 @@ struct Libro
 	unsigned int ejemplares   = 0;	  //!< Número de ejemplares de los que dispone la librería
 	unsigned int prestados    = 0;	  //!< Número de ejemplares que se están prestados en ese momento.
 };
+
+/*!
+ * Struct para contener un DNI.
+ */
+struct Dni
+{
+	unsigned int numero = 0; //!< Número del DNI.
+	char letra = 'A';        //!< Letra  del DNI.
+};
+
+/*!
+ * Struct con el contenido de cada préstamo.
+ */
+struct LibroPrestado
+{
+	string ISBN = ""; //!< String conteniendo el ISBN del libro prestado.
+	Fecha prestamo;	  //!< Instancia del struct de tipo fecha para almacenar la fecha a la que se realizó el préstamo.
+	Fecha devolución; //!< Instancia del struct de tipo fecha para almacenar la fecha en que se debe devolver el libro.
+};
+
+/*!
+ * Struct para el manejo de los clientes.
+ */
+struct Cliente
+{
+	Dni dni;					  //!< DNI del cliente.
+	vector<LibroPrestado> libros; //!< Vector conteniendo los libros que tiene el cliente prestados.
+};
+
 // Fin declaraciones de structs.
 
 // Inicio declaración de tipos de datos propios.
 typedef vector<string> Menu; //!< Tipo de dato menú para especificar que los vectores de strigns usados en los menús no se confundan.
 // Fin declaración de tipos de datos propios.
-
 
 // Inicio cabeceras de las funciones incluidas en este archivo.
 	
@@ -95,6 +117,8 @@ typedef vector<string> Menu; //!< Tipo de dato menú para especificar que los ve
 	void BVectorToBiblioteca(const vector<vector<string>>&, vector<Libro>&);
 	void BibliotecaToBVector(const vector<Libro>&, vector<vector<string>>&);
 	bool IsbnExist(const vector<Libro>&, const string&, int);
+	bool DniCorrecto(Dni);
+	char LetraDni(unsigned int);
 	// Fin funciones procesado de datos.
 
 // Fin cabeceras de las funciones incluidas en este archivo.
@@ -109,21 +133,28 @@ int main()
 	Presentacion(); // Presentación del programa.
 
 	// Inicio declaración de variables de programa.
+	Dni nuevo_dni;
 	vector<vector<string>> data;
 	vector<Libro> biblioteca;
 	string data_string = "";
+	string archivo_libros = "archivos/libros.csv";
+	string archivo_gente = "archivos/listado_gente.csv";
 
 	int seleccion_principal = 0;
 	int seleccion_auxiliar = 0;
 
-	int aux_var1 = 0; // Variables auxiliares para usos generales.
-	int aux_var2 = 0; // Variables auxiliares para usos generales.
-	int aux_var3 = 0; // Variables auxiliares para usos generales.
-	int aux_var4 = 0; // Variables auxiliares para usos generales.
+	int aux_var1 = 0;              // Variables auxiliares para usos generales.
+	int aux_var2 = 0;              // Variables auxiliares para usos generales.
+	int aux_var3 = 0;              // Variables auxiliares para usos generales.
+	int aux_var4 = 0;              // Variables auxiliares para usos generales.
 	unsigned int uns_aux_var1 = 0; // Variables auxiliares para usos generales.
 	unsigned int uns_aux_var2 = 0; // Variables auxiliares para usos generales.
 	unsigned int uns_aux_var3 = 0; // Variables auxiliares para usos generales.
 	unsigned int uns_aux_var4 = 0; // Variables auxiliares para usos generales.
+	bool bool_aux_var1 = false;    // Variables auxiliares para usos generales.
+	bool bool_aux_var2 = false;    // Variables auxiliares para usos generales.
+	bool bool_aux_var3 = false;    // Variables auxiliares para usos generales.
+	bool bool_aux_var4 = false;    // Variables auxiliares para usos generales.
 
 	bool salir = false;
 
@@ -217,15 +248,149 @@ int main()
 		}
 		else if (seleccion_principal == 3)
 		{
+			system("CLS"); // Borrado de pantalla.
 
+			cout << " Introduce el ISBN del libro: "; // Petición del ISBN.
+			getline(cin, data_string);
+
+			while (!IsbnExist(biblioteca, data_string, aux_var1 && data_string != "-1")) // Comprobación de existencia en la biblioteca.
+			{
+				system("CLS");
+				cout << red << " El libro no existe" << reset << endl;
+				cout << " Introduzca de nuevo el ISBN o -1 para salir: ";
+				getline(cin, data_string);
+			}
+			if (data_string != "-1")
+			{
+				MostrarLibro(biblioteca, aux_var1);
+			}
 		}
 		else if (seleccion_principal == 4)
 		{
+			system("CLS"); // Borrado de pantalla.
+			
+			bool_aux_var1 = false;
+
+			do
+			{
+				cout << " Introduce el numero del DNI de la persona que desea llevarse prestado un libro: "; // Petición del ISBN.
+				getline(cin, data_string);			         // Introducción del número del DNI.
+				nuevo_dni.numero = stoi(data_string);        // Introducción del número del DNI.
+
+				cout << " Introduce la letra del DNI: ";	 // Introducción de la letra del DNI.
+				getline(cin, data_string);					 // Introducción de la letra del DNI.
+				nuevo_dni.letra = char(data_string.c_str()); // Introducción de la letra del DNI.
+
+				if (!DniCorrecto(nuevo_dni)) // Comprobación de que el DNI sea correcto.
+				{
+					system("CLS"); // Borrado de pantalla.
+					bool_aux_var1 = true;
+					cout << red << " El DNI introducido no es valido. Por favor introduzca uno"<<green<<" correcto."<<reset << endl;
+				}
+			} while (bool_aux_var1);
+			
+			bool_aux_var1 = false; // Reseteo de la variable a false para ser reutilizada.
+
+			system("CLS"); // Borrado de pantalla.
+
+			do
+			{
+			 	cout << " Introduzca el ISBN del libro o -1 para salir: ";
+			 	getline(cin, data_string);
+
+				if (IsbnExist(biblioteca, data_string, aux_var1 && data_string != "-1"))
+				{
+					system("CLS");
+					cout << red << " El libro no existe." << reset << endl;
+				}
+
+			} while (bool_aux_var1); // Comprobación de existencia en la biblioteca.
+
+			if (data_string != "-1")
+			{
+				if (biblioteca[aux_var1].prestados < biblioteca[aux_var1].ejemplares)
+				{
+					system("CLS");
+
+					biblioteca[aux_var1].prestados++;
+
+					// BibliotecaToBVector(biblioteca, data);  // REHACER.
+					// EscribirCsv(data, archivo_libros, ';'); // REHACER.
+
+					cout << " El libro \"" << biblioteca[aux_var1].titulo << "\"  con ISBN \"" << biblioteca[aux_var1].isbn << "\"  ha sido prestado a la persona con DNI \"" << nuevo_dni.numero << nuevo_dni.letra << "\"." << endl;
+					system("PAUSE");
+				}
+				else
+				{
+					cout << " El libro \"" << biblioteca[aux_var1].titulo << "\"  con ISBN \"" << biblioteca[aux_var1].isbn << "\" no puede prestarse ya que no se dispone de ejemplares" << endl;
+					system("PAUSE");
+				}
+
+			}
 
 		}
 		else if (seleccion_principal == 5)
 		{
+		system("CLS"); // Borrado de pantalla.
 
+		bool_aux_var1 = false;
+
+		do
+		{
+			cout << " Introduce el numero del DNI de la persona que desea llevarse prestado un libro: "; // Petición del ISBN.
+			getline(cin, data_string);			         // Introducción del número del DNI.
+			nuevo_dni.numero = stoi(data_string);        // Introducción del número del DNI.
+
+			cout << " Introduce la letra del DNI: ";	 // Introducción de la letra del DNI.
+			getline(cin, data_string);					 // Introducción de la letra del DNI.
+			nuevo_dni.letra = char(data_string.c_str()); // Introducción de la letra del DNI.
+
+			if (!DniCorrecto(nuevo_dni)) // Comprobación de que el DNI sea correcto.
+			{
+				system("CLS"); // Borrado de pantalla.
+				bool_aux_var1 = true;
+				cout << red << " El DNI introducido no es valido. Por favor introduzca uno" << green << " correcto." << reset << endl;
+			}
+		} while (bool_aux_var1);
+
+		bool_aux_var1 = false; // Reseteo de la variable a false para ser reutilizada.
+
+		system("CLS"); // Borrado de pantalla.
+
+		do
+		{
+			cout << " Introduzca el ISBN del libro o -1 para salir: ";
+			getline(cin, data_string);
+
+			if (IsbnExist(biblioteca, data_string, aux_var1 && data_string != "-1"))
+			{
+				system("CLS");
+				cout << red << " El libro no existe." << reset << endl;
+			}
+
+		} while (bool_aux_var1); // Comprobación de existencia en la biblioteca.
+
+		if (data_string != "-1")
+		{
+			if (biblioteca[aux_var1].prestados < biblioteca[aux_var1].ejemplares)
+			{
+				system("CLS");
+
+				biblioteca[aux_var1].prestados--;
+
+				// BibliotecaToBVector(biblioteca, data);  // REHACER
+				// EscribirCsv(data, archivo_libros, ';'); // REHACER
+
+				cout << " El libro \"" << biblioteca[aux_var1].titulo << "\"  con ISBN \"" << biblioteca[aux_var1].isbn << "\"  ha sido prestado a la persona con DNI \"" << nuevo_dni.numero << nuevo_dni.letra << "\"." << endl;
+				system("PAUSE");
+			}
+			else
+			{
+				cout << " El libro \"" << biblioteca[aux_var1].titulo << "\"  con ISBN \"" << biblioteca[aux_var1].isbn << "\" no puede prestarse ya que no se dispone de ejemplares" << endl;
+				system("PAUSE");
+			}
+
+		}
 		}
 		else if (seleccion_principal == 6)
 		{
@@ -323,6 +488,7 @@ void Creditos(void)
  */
 void MostrarLibro(const vector<Libro>& biblioteca, int posicion)
 {
+	system("CLS");
 	cout << endl;
 	cout << " " << red << "Datos del libro" << reset << endl;
 
@@ -338,6 +504,7 @@ void MostrarLibro(const vector<Libro>& biblioteca, int posicion)
 	cout << green << " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *" << reset << endl;
 
 	cout << endl;
+	system("PAUSE");
 }
 
 /*!
@@ -643,7 +810,6 @@ bool EscribirCsv(vector<vector<string>>& bi_vector, const string& nombre_archivo
 	return archivo_abierto;
 }
 
-
 // Fin funciones de interacción con archivos.
 
 // Inicio funciones procesado de datos.
@@ -701,7 +867,6 @@ void BibliotecaToBVector(const vector<Libro>& biblioteca, vector<vector<string>>
 	}
 }
 
-
 /*!
  * Función para determinar si el libro existe en base al isbn.
  * 
@@ -724,6 +889,40 @@ bool IsbnExist(const vector<Libro>& biblioteca, const string& isbn, int posicion
 	return existe;
 }
 
+// Verificación de dni correcto basado en datos proporcionados por el ministerio del interior.
+// http://www.interior.gob.es/web/servicios-al-ciudadano/dni/calculo-del-digito-de-control-del-nif-nie
+
+/*!
+ * Función de verificación de un DNI español en base a:
+ * http://www.interior.gob.es/web/servicios-al-ciudadano/dni/calculo-del-digito-de-control-del-nif-nie
+ * 
+ * \param dni Struct de un DNI (numero + letra).
+ * \return    Booleano indicando si el DNI es correcto.
+ */
+bool DniCorrecto(Dni dni)
+{
+	bool correcto = false;
+
+	if (dni.letra == LetraDni(dni.numero))
+	{
+		correcto = true;
+	}
+	return correcto;
+}
+
+/*!
+ * Función para calcular la letra de un DNI español.
+ * 
+ * \param numero Número del DNI.
+ * \return       Letra que corresponde al número introducido.
+ */
+char LetraDni(unsigned int numero)
+{
+	char letras[23] = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E' };
+
+	return letras[unsigned int(numero % 23)];
+}
+// Verificación de dni correcto basado en datos proporcionados por el ministerio del interior.
 // Fin funciones procesado de datos.
 
 
