@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['fecha_4',['Fecha',['../struct_fecha.html',1,'Fecha'],['../struct_libro.html#a0c03b0bde049fcff58ed4d1f41e46556',1,'Libro::fecha()']]]
+  ['dia_5',['dia',['../struct_fecha.html#a948e0fc105179b7059e43e2401de908e',1,'Fecha']]]
 ];

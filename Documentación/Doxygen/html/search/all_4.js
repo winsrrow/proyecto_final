@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['genero_5',['genero',['../struct_libro.html#a4bd4464b0a9af04c6faa1630f6ebf67c',1,'Libro']]]
+  ['ejemplares_6',['ejemplares',['../struct_libro.html#aeb1cd4a07889dc5a2ff4a651d8dda0f0',1,'Libro']]]
 ];

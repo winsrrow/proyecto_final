@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['presentacion_27',['Presentacion',['../_proyecto__final_8cpp.html#ad02d883b4d6a33d8c18505cb21bc1c99',1,'Proyecto_final.cpp']]]
+  ['creditos_32',['Creditos',['../_proyecto__final_8cpp.html#add20ae6badb9053c51e4fed07df26966',1,'Proyecto_final.cpp']]]
 ];

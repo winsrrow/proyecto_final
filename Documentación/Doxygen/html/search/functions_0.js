@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['leercsv_25',['LeerCsv',['../_proyecto__final_8cpp.html#a345665984ae7e7f59a42bcedd0388397',1,'Proyecto_final.cpp']]]
+  ['anadirlibro_30',['anadirLibro',['../_proyecto__final_8cpp.html#aa88187292462ce9aaa9ee77976216d29',1,'Proyecto_final.cpp']]]
 ];

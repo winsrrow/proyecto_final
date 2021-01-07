@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ejemplares_3',['ejemplares',['../struct_libro.html#aeb1cd4a07889dc5a2ff4a651d8dda0f0',1,'Libro']]]
+  ['creditos_4',['Creditos',['../_proyecto__final_8cpp.html#add20ae6badb9053c51e4fed07df26966',1,'Proyecto_final.cpp']]]
 ];

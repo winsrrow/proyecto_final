@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dia_2',['dia',['../struct_fecha.html#a948e0fc105179b7059e43e2401de908e',1,'Fecha']]]
+  ['bvectortobiblioteca_3',['BVectorToBiblioteca',['../_proyecto__final_8cpp.html#a39faae1d818b0b2d6d2421d0bd03f10e',1,'Proyecto_final.cpp']]]
 ];

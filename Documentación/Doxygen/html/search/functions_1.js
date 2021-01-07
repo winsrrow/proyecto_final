@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['main_26',['main',['../_proyecto__final_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'Proyecto_final.cpp']]]
+  ['bvectortobiblioteca_31',['BVectorToBiblioteca',['../_proyecto__final_8cpp.html#a39faae1d818b0b2d6d2421d0bd03f10e',1,'Proyecto_final.cpp']]]
 ];
