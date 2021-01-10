@@ -463,13 +463,15 @@ void Presentacion(void)
 	cout << " Este programa sirve para el manejo de una libreria." << endl;
 	cout << endl;
 
-	cout << " Las funciones basicas son: " << endl;
+	cout << " Las características basicas son: " << endl;
 	cout << "    - Dar de alta libros conforme se recepcionan nuevos ejemplares" << reset << endl;
 	cout << "    - Permitir eliminar aquellos libros que, por desgaste, estan inutilizables" << reset << endl;
 	cout << "    - Llevar el estocaje de todos los libros de que se dispone, "<<endl
 		 << "      pudiendo diferenciar los que estan en la biblioteca de los" << endl
 		 << "      que estan prestados en cada momento" << reset << endl;
-	cout << "    - Prestar libros a alumnos de la ETSE" << reset << endl;
+	cout << "    - Prestar libros a cualquier persona con un DNI valido." << reset << endl;
+	cout << "    - Permitir devolver libros a las personas que los hayan pedido." << reset << endl;
+	cout << "    - Programa diseñado teniendo en cuenta que se pueda mejorar en un futuro." << reset << endl;
 	cout << endl;
 	// Explicación de la práctica.
 
