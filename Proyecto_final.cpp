@@ -3,7 +3,7 @@
  * \brief  Práctica final de informática.\n
  *		   1ºGIET Escuela Superior Tecnica de Ingeniería (ETSE-UV). 
  *
- * \author WINSRROW
+ * \author    Javier Sánchez Martínez
  * \version   1.0
  * \date   December 2020
  *********************************************************************/
@@ -67,7 +67,7 @@ struct Dni
  */
 struct LibroPrestado
 {
-	string ISBN = ""; //!< String conteniendo el ISBN del libro prestado.
+	string isbn = ""; //!< String conteniendo el ISBN del libro prestado.
 	Fecha prestamo;	  //!< Instancia del struct de tipo fecha para almacenar la fecha a la que se realizó el préstamo.
 	Fecha devolucion; //!< Instancia del struct de tipo fecha para almacenar la fecha en que se debe devolver el libro.
 };
@@ -98,28 +98,33 @@ typedef vector<string> Menu; //!< Tipo de dato menú para especificar que los ve
     // Función de despedida.
 
 	// Inicio funciones de muestra de datos
-	void MostrarLibro       (const vector<Libro>&,          int                         );  //!< \brief Función visualización datos libro.
-	void MostrarLibros      (const vector<Libro>&                                       );  //!< \brief Función visualización contenido biblioteca.
-	string Estrellitas      (unsigned int                                               );
-	// Fin funciones de muestra de datos										    
-																				    
-	// Inicio funciones recogida de datos del usuario.							    
-	int VisualizarMenu      (const string&,                 const Menu&                 );
-	void anadirLibro        (vector<Libro>&                                             );
-	// Fin funciones recogida de datos del usuario.								    
-	
-	// Inicio funciones de interacción con archivos.							    
-	bool LeerCsv            (vector<vector<string>>&,       const string&,          char);
-	bool EscribirCsv        (vector<vector<string>>&,       const string&,          char);
-	// Fin funciones de interacción con archivos.								    
-																				    
-	// Inicio funciones procesado de datos.										    
-	void BVectorToBiblioteca(const vector<vector<string>>&, vector<Libro>&              );
-	void BibliotecaToBVector(const vector<Libro>&,          vector<vector<string>>&     );
-	void BVectorToClientes  (const vector<vector<string>>&, vector<Cliente>&            );
-	bool IsbnExist          (const vector<Libro>&,          const string&,          int );
-	bool DniCorrecto        (Dni                                                        );
-	char LetraDni           (unsigned int                                               );
+	void MostrarLibro(const vector<Libro>&, int);  //!< \brief Función visualización datos libro.
+	void MostrarLibros(const vector<Libro>&);  //!< \brief Función visualización contenido biblioteca.
+	string Estrellitas(unsigned int);
+	// Fin funciones de muestra de datos										            
+																				            
+	// Inicio funciones recogida de datos del usuario.							            
+	int VisualizarMenu(const string&, const Menu&);
+	void anadirLibro(vector<Libro>&, const string&);
+	Fecha IntroducirFecha(void);
+	// Fin funciones recogida de datos del usuario.								            
+																					        
+	// Inicio funciones de interacción con archivos.							            
+	bool LeerCsv(vector<vector<string>>&, const string&, char);
+	bool EscribirCsv(vector<vector<string>>&, const string&, char);
+	// Fin funciones de interacción con archivos.								            
+																				            
+	// Inicio funciones procesado de datos.										            
+	void BVectorToBiblioteca(const vector<vector<string>>&, vector<Libro>&);
+	void BibliotecaToBVector(const vector<Libro>&, vector<vector<string>>&);
+	void AnyadirLibroCliente(const Dni&, vector<Cliente>&, const string&, const Fecha&, const Fecha&);
+	bool EliminarLibroCliente(const Dni&, vector<Cliente>&, const string&);
+	void BVectorToClientes(const vector<vector<string>>&, vector<Cliente>&);
+	void ClientesToBVector(const vector<Cliente>&, vector<vector<string>>&);
+	bool IsbnExist(const vector<Libro>&, const string&, int&);
+	bool DniCorrecto(const Dni& dni);
+	char LetraDni(unsigned int);
+	bool DniExiste(const Dni&, const vector<Cliente>&, unsigned int&);
 	// Fin funciones procesado de datos.
 
 // Fin cabeceras de las funciones incluidas en este archivo.
@@ -138,6 +143,9 @@ int main()
 	vector<vector<string>> data;
 	vector<Libro> biblioteca;
 	vector<Cliente> clientes;
+
+	Fecha fecha_in;  // Fechas para la introducción de fechas de entrada y salida.
+	Fecha fecha_out; // Fechas para la introducción de fechas de entrada y salida.
 
 	string data_string = "";
 	string archivo_libros = "archivos/libros.csv";
@@ -170,19 +178,22 @@ int main()
 		"Prestar libro",
 		"Devolver libro",
 		"Salir del programa de gestion"
-	};
+	}; // Menú principal.
 
 	// Fin declaración de variables de programa.
 
-	LeerCsv(data, "archivos/libros.csv", ';');
+	LeerCsv(data, archivo_libros, ';');
 	BVectorToBiblioteca(data, biblioteca);
+	data.clear();
+
+	LeerCsv(data, archivo_gente, ';');
+	BVectorToClientes(data, clientes);
 	data.clear();
 
 	// Inicio bucle principal del programa.
 
 	while (!salir)
 	{
-
 		seleccion_principal = VisualizarMenu("Menu principal", principal);
 
 		if (seleccion_principal == 0)
@@ -221,7 +232,10 @@ int main()
 			}
 			else
 			{
-				anadirLibro(biblioteca); // Si no existe llama a la función de introducción de libro.
+				anadirLibro(biblioteca, data_string); // Si no existe llama a la función de introducción de libro.
+				BibliotecaToBVector(biblioteca, data);  // Guardado de los datos del libro en el archivo de la biblioteca.
+				EscribirCsv(data, archivo_libros, ';');	// Guardado de los datos del libro en el archivo de la biblioteca.
+				data.clear();
 			}
 		}
 		else if (seleccion_principal == 2)
@@ -231,7 +245,7 @@ int main()
 			cout << " Introduce el ISBN del libro: "; // Petición del ISBN.
 			getline(cin, data_string);
 
-			while (!IsbnExist(biblioteca, data_string, aux_var1 && data_string != "-1")) // Comprobación de existencia en la biblioteca.
+			while (!IsbnExist(biblioteca, data_string, aux_var1) && data_string != "-1") // Comprobación de existencia en la biblioteca.
 			{
 				system("CLS");
 				cout << red << " El libro no existe" << reset << endl;
@@ -241,12 +255,13 @@ int main()
 			if (data_string != "-1")
 			{
 				biblioteca.erase(biblioteca.begin() + aux_var1);
-
+				data.clear();
 				BibliotecaToBVector(biblioteca, data);
 				EscribirCsv(data, archivo_libros, ';');
 
 				system("CLS");
 				cout << " EL libro con isbn: " << data_string << " ha sido eliminado." << endl;
+				system("PAUSE");
 			}
 		}
 		else if (seleccion_principal == 3)
@@ -256,7 +271,7 @@ int main()
 			cout << " Introduce el ISBN del libro: "; // Petición del ISBN.
 			getline(cin, data_string);
 
-			while (!IsbnExist(biblioteca, data_string, aux_var1 && data_string != "-1")) // Comprobación de existencia en la biblioteca.
+			while (!IsbnExist(biblioteca, data_string, aux_var1) && data_string != "-1") // Comprobación de existencia en la biblioteca.
 			{
 				system("CLS");
 				cout << red << " El libro no existe" << reset << endl;
@@ -281,14 +296,18 @@ int main()
 				nuevo_dni.numero = stoi(data_string);        // Introducción del número del DNI.
 
 				cout << " Introduce la letra del DNI: ";	 // Introducción de la letra del DNI.
-				getline(cin, data_string);					 // Introducción de la letra del DNI.
-				nuevo_dni.letra = char(data_string.c_str()); // Introducción de la letra del DNI.
+				cin >> nuevo_dni.letra;					     // Introducción de la letra del DNI.
+				cin.ignore();
 
 				if (!DniCorrecto(nuevo_dni)) // Comprobación de que el DNI sea correcto.
 				{
 					system("CLS"); // Borrado de pantalla.
 					bool_aux_var1 = true;
 					cout << red << " El DNI introducido no es valido. Por favor introduzca uno"<<green<<" correcto."<<reset << endl;
+				}
+				else
+				{
+					bool_aux_var1 = false;
 				}
 			} while (bool_aux_var1);
 			
@@ -301,25 +320,38 @@ int main()
 			 	cout << " Introduzca el ISBN del libro o -1 para salir: ";
 			 	getline(cin, data_string);
 
-				if (IsbnExist(biblioteca, data_string, aux_var1 && data_string != "-1"))
+				if (!IsbnExist(biblioteca, data_string, aux_var1) && data_string != "-1")
 				{
 					system("CLS");
 					cout << red << " El libro no existe." << reset << endl;
+					bool_aux_var1 = true;
 				}
-
+				else
+				{
+					bool_aux_var1 = false;
+				}
 			} while (bool_aux_var1); // Comprobación de existencia en la biblioteca.
 
 			if (data_string != "-1")
 			{
 				if (biblioteca[aux_var1].prestados < biblioteca[aux_var1].ejemplares)
 				{
-					system("CLS");
+					fecha_in = IntroducirFecha();  // Introducción de las fechas de entrada y salida.
+					fecha_out = IntroducirFecha(); // Introducción de las fechas de entrada y salida.
 
-					biblioteca[aux_var1].prestados++;
+					biblioteca[aux_var1].prestados++; // Incrementación del numero de libros prestados del libro en concreto.
 
-					// BibliotecaToBVector(biblioteca, data);  // REHACER.
-					// EscribirCsv(data, archivo_libros, ';'); // REHACER.
+					AnyadirLibroCliente(nuevo_dni, clientes, data_string, fecha_in, fecha_out); // Añadido el libro al cliente correspondiente.
 
+					BibliotecaToBVector(biblioteca, data);  // Guardado de los datos del libro en el archivo de la biblioteca.
+					EscribirCsv(data, archivo_libros, ';');	// Guardado de los datos del libro en el archivo de la biblioteca.
+					data.clear();							// Guardado de los datos del libro en el archivo de la biblioteca.
+
+					ClientesToBVector(clientes, data);      // Guardado de los datos de los clientes en el archivo de clientes.
+					EscribirCsv(data, archivo_gente, ';');  // Guardado de los datos de los clientes en el archivo de clientes.
+					data.clear();							// Guardado de los datos de los clientes en el archivo de clientes.
+
+					system("PAUSE");
 					cout << " El libro \"" << biblioteca[aux_var1].titulo << "\"  con ISBN \"" << biblioteca[aux_var1].isbn << "\"  ha sido prestado a la persona con DNI \"" << nuevo_dni.numero << nuevo_dni.letra << "\"." << endl;
 					system("PAUSE");
 				}
@@ -328,79 +360,83 @@ int main()
 					cout << " El libro \"" << biblioteca[aux_var1].titulo << "\"  con ISBN \"" << biblioteca[aux_var1].isbn << "\" no puede prestarse ya que no se dispone de ejemplares" << endl;
 					system("PAUSE");
 				}
-
 			}
-
 		}
 		else if (seleccion_principal == 5)
 		{
-		system("CLS"); // Borrado de pantalla.
+			system("CLS"); // Borrado de pantalla.
 
-		bool_aux_var1 = false;
+			bool_aux_var1 = false;
 
-		do
-		{
-			cout << " Introduce el numero del DNI de la persona que desea llevarse prestado un libro: "; // Petición del ISBN.
-			getline(cin, data_string);			         // Introducción del número del DNI.
-			nuevo_dni.numero = stoi(data_string);        // Introducción del número del DNI.
-
-			cout << " Introduce la letra del DNI: ";	 // Introducción de la letra del DNI.
-			getline(cin, data_string);					 // Introducción de la letra del DNI.
-			nuevo_dni.letra = char(data_string.c_str()); // Introducción de la letra del DNI.
-
-			if (!DniCorrecto(nuevo_dni)) // Comprobación de que el DNI sea correcto.
+			do
 			{
-				system("CLS"); // Borrado de pantalla.
-				bool_aux_var1 = true;
-				cout << red << " El DNI introducido no es valido. Por favor introduzca uno" << green << " correcto." << reset << endl;
-			}
-		} while (bool_aux_var1);
+				cout << " Introduce el numero del DNI de la persona que desea devolver un libro: "; // Petición del ISBN.
+				getline(cin, data_string);			         // Introducción del número del DNI.
+				nuevo_dni.numero = stoi(data_string);        // Introducción del número del DNI.
+				
+				cout << " Introduce la letra del DNI: ";	 // Introducción de la letra del DNI.
+				cin >> nuevo_dni.letra;					     // Introducción de la letra del DNI.
+				cin.ignore();                                // Introducción de la letra del DNI.
 
-		bool_aux_var1 = false; // Reseteo de la variable a false para ser reutilizada.
+				if (!DniCorrecto(nuevo_dni)) // Comprobación de que el DNI sea correcto.
+				{
+					system("CLS"); // Borrado de pantalla.
+					bool_aux_var1 = true;
+					cout << red << " El DNI introducido no es valido. Por favor introduzca uno" << green << " correcto." << reset << endl;
+				}
+				else
+				{
+					bool_aux_var1 = false;
+				}
+			} while (bool_aux_var1);
 
-		system("CLS"); // Borrado de pantalla.
+			bool_aux_var1 = false; // Reseteo de la variable a false para ser reutilizada.
 
-		do
-		{
-			cout << " Introduzca el ISBN del libro o -1 para salir: ";
-			getline(cin, data_string);
+			system("CLS"); // Borrado de pantalla.
 
-			if (IsbnExist(biblioteca, data_string, aux_var1 && data_string != "-1"))
+			do
 			{
-				system("CLS");
-				cout << red << " El libro no existe." << reset << endl;
-			}
+				cout << " Introduzca el ISBN del libro o -1 para salir: ";
+				getline(cin, data_string);
 
-		} while (bool_aux_var1); // Comprobación de existencia en la biblioteca.
+				if (!IsbnExist(biblioteca, data_string, aux_var1) && data_string != "-1")
+				{
+					system("CLS");
+					cout << red << " El libro no existe." << reset << endl;
+					bool_aux_var1 = true;
+				}
+				else
+				{
+					bool_aux_var1 = false;
+				}
+			} while (bool_aux_var1); // Comprobación de existencia en la biblioteca.
 
-		if (data_string != "-1")
-		{
-			if (biblioteca[aux_var1].prestados < biblioteca[aux_var1].ejemplares)
+			if (data_string != "-1")
 			{
-				system("CLS");
+				if (biblioteca[aux_var1].prestados > 0)
+				{
+					system("CLS");
 
-				biblioteca[aux_var1].prestados--;
+					biblioteca[aux_var1].prestados--;
 
-				// BibliotecaToBVector(biblioteca, data);  // REHACER
-				EscribirCsv(data, archivo_gente, ';'); // REHACER
+					BibliotecaToBVector(biblioteca, data);  // Guardado de los datos del libro en el archivo de la biblioteca.
+					EscribirCsv(data, archivo_libros, ';'); // Guardado de los datos del libro en el archivo de la biblioteca.
+					data.clear();							// Guardado de los datos del libro en el archivo de la biblioteca.
 
-				cout << " El libro \"" << biblioteca[aux_var1].titulo << "\"  con ISBN \"" << biblioteca[aux_var1].isbn << "\"  ha sido prestado a la persona con DNI \"" << nuevo_dni.numero << nuevo_dni.letra << "\"." << endl;
-				system("PAUSE");
+					EliminarLibroCliente(nuevo_dni, clientes, data_string); // Guardado de los datos de los clientes en el archivo de clientes.
+					ClientesToBVector(clientes, data);					    // Guardado de los datos de los clientes en el archivo de clientes.
+					EscribirCsv(data, archivo_gente, ';');				    // Guardado de los datos de los clientes en el archivo de clientes.
+
+					cout << " El libro \"" << biblioteca[aux_var1].titulo << "\"  con ISBN \"" << biblioteca[aux_var1].isbn << "\"  ha sido devuelto por la persona con DNI \"" << nuevo_dni.numero << nuevo_dni.letra << "\"." << endl;
+					system("PAUSE");
+				}
 			}
-			else
-			{
-				cout << " El libro \"" << biblioteca[aux_var1].titulo << "\"  con ISBN \"" << biblioteca[aux_var1].isbn << "\" no puede prestarse ya que no se dispone de ejemplares" << endl;
-				system("PAUSE");
-			}
-
-		}
 		}
 		else if (seleccion_principal == 6)
 		{
 			salir = true;
 		}
 	}
-
 	// Fin bucle principal del programa.
 
 	Creditos();
@@ -484,7 +520,6 @@ void Creditos(void)
 // Función de presentación.
 
 // Inicio funciones de muestra de datos
-
 /*!
  * \param libreria  Vector conteniente de todos los libros.
  * \param posicion  Posición del libro el cual se desean visualizar los datos. 
@@ -611,11 +646,9 @@ string Estrellitas(unsigned int num)
 	}
 	return estrellas;
 }
-
 // Fin funciones de muestra de datos
 
 // Inicio funciones recogida de datos del usuario.
-
 /*!
  * 
  * Funcion para la visualización de los menús haciendo uso de el tipo de dato Menu con la posibilidad de añadir un título.
@@ -680,9 +713,10 @@ int VisualizarMenu(const string& titulo, const Menu& menu)
  * 
  * \param libreria
  */
-void anadirLibro(vector<Libro>& biblioteca)
+void anadirLibro(vector<Libro>& biblioteca, const string& isbn)
 {
 	Libro nuevo_libro; // Nuevo libro.
+	nuevo_libro.isbn = isbn;
 	system("CLS");     // Limpiar la pantalla.
 
 	cout << "Titulo: ";				    // Introducción del título.
@@ -693,9 +727,6 @@ void anadirLibro(vector<Libro>& biblioteca)
 									    
 	cout << "Genero: ";				    // Introducción del género del libro.
 	getline(cin, nuevo_libro.genero);   // Introducción del género del libro.
-									    
-	cout << "ISBN: ";				    // Introducción del ISBN.
-	getline(cin, nuevo_libro.isbn);     // Introducción del ISBN.
 									    
 	cout << "Anyo de edicion: ";	    // Introducción del año de edición.
 	cin >> nuevo_libro.fecha.anyo;      // Introducción del año de edición.
@@ -711,10 +742,36 @@ void anadirLibro(vector<Libro>& biblioteca)
 	biblioteca.push_back(nuevo_libro);  
 }
 
+/*!
+ * Función para introducir una nueva fecha.
+ * 
+ * \return Fecha introducida (dia, mes, año).
+ */
+Fecha IntroducirFecha(void)
+{
+	Fecha nueva_fecha;
+	
+	unsigned int num_estrellas = 20;
+
+	system("CLS");
+
+	cout << left << endl; // Alineación a la izquierda.
+	cout << " " << red << "Datos del libro" << reset << endl; // Título
+
+	cout << green << Estrellitas(num_estrellas) << reset << endl;
+	cout << " Introduce el dia: ";  // Introducción de los datos.
+	cin >> nueva_fecha.dia;			// Introducción de los datos.
+	cout << " Introduce el mes: ";	// Introducción de los datos.
+	cin >> nueva_fecha.mes;			// Introducción de los datos.
+	cout << " Introduce el anyo: ";	// Introducción de los datos.
+	cin >> nueva_fecha.anyo;        // Introducción de los datos.
+	cin.ignore();
+
+	return nueva_fecha;
+}
 // Fin funciones recogida de datos del usuario.
 
 // Inicio funciones de interacción con archivos.
-
 /*!
 * 
  * Función para la lectura de cualquier csv genérico necesario en el proyecto.
@@ -811,11 +868,9 @@ bool EscribirCsv(vector<vector<string>>& bi_vector, const string& nombre_archivo
 	}
 	return archivo_abierto;
 }
-
 // Fin funciones de interacción con archivos.
 
 // Inicio funciones procesado de datos.
-
 /*!
  * .
  * 
@@ -829,13 +884,13 @@ void BVectorToBiblioteca(const vector<vector<string>>& bi_vector, vector<Libro>&
 		if (!bi_vector[i].empty())
 		{
 			Libro nuevo_libro;
-			if (!bi_vector[i][1].empty()) nuevo_libro.titulo		=      bi_vector[i][0];
-			if (!bi_vector[i][2].empty()) nuevo_libro.autor			=      bi_vector[i][1];
-			if (!bi_vector[i][3].empty()) nuevo_libro.genero		=      bi_vector[i][2];
-			if (!bi_vector[i][4].empty()) nuevo_libro.isbn			=      bi_vector[i][3];
+			if (!bi_vector[i][0].empty()) nuevo_libro.titulo		=      bi_vector[i][0];
+			if (!bi_vector[i][1].empty()) nuevo_libro.autor			=      bi_vector[i][1];
+			if (!bi_vector[i][2].empty()) nuevo_libro.genero		=      bi_vector[i][2];
+			if (!bi_vector[i][3].empty()) nuevo_libro.isbn			=      bi_vector[i][3];
 			if (!bi_vector[i][4].empty()) nuevo_libro.fecha.anyo	= stoi(bi_vector[i][4]);
-			if (!bi_vector[i][7].empty()) nuevo_libro.paginas		= stoi(bi_vector[i][5]);
-			if (!bi_vector[i][7].empty()) nuevo_libro.ejemplares	= stoi(bi_vector[i][6]);
+			if (!bi_vector[i][5].empty()) nuevo_libro.paginas		= stoi(bi_vector[i][5]);
+			if (!bi_vector[i][6].empty()) nuevo_libro.ejemplares	= stoi(bi_vector[i][6]);
 			if (!bi_vector[i][7].empty()) nuevo_libro.prestados		= stoi(bi_vector[i][7]);
 			biblioteca.push_back(nuevo_libro);
 		}
@@ -870,6 +925,83 @@ void BibliotecaToBVector(const vector<Libro>& biblioteca, vector<vector<string>>
 }
 
 /*!
+ * Función para la modificación del vector clientes.
+ * 
+ * \param dni      DNI del cliente a modificar.
+ * \param clientes Vector con la información.
+ * \param isbn     ISBN del libro.
+ * \param in       Fecha de prestamo del libro.
+ * \param out      Fecha de devolución del libro.
+ */
+void AnyadirLibroCliente(const Dni& dni, vector<Cliente>& clientes, const string& isbn, const Fecha& in, const Fecha& out)
+{
+	Cliente nuevo_cliente;
+	LibroPrestado nuevo_libro_prestado;
+
+	unsigned int poss = 0;
+
+	nuevo_libro_prestado.isbn = isbn;                // asignación de datos del prestamo.
+	nuevo_libro_prestado.prestamo.anyo = in.anyo;	 // asignación de datos del prestamo.
+	nuevo_libro_prestado.prestamo.mes = in.mes;		 // asignación de datos del prestamo.
+	nuevo_libro_prestado.prestamo.dia = in.dia;		 // asignación de datos del prestamo.
+													 // asignación de datos del prestamo.
+	nuevo_libro_prestado.devolucion.anyo = out.anyo; // asignación de datos del prestamo.
+	nuevo_libro_prestado.devolucion.mes = out.mes;	 // asignación de datos del prestamo.
+	nuevo_libro_prestado.devolucion.dia = out.dia;	 // asignación de datos del prestamo.
+
+	if (DniExiste(dni, clientes, poss)) // Si existe lo añadimos al cliente existente.
+	{
+		clientes[poss].libros.push_back(nuevo_libro_prestado);
+	}
+	else                                // Si no, creamos un cliente y lo añadimos.
+	{
+		nuevo_cliente.dni.numero = dni.numero;
+		nuevo_cliente.libros.push_back(nuevo_libro_prestado);
+		clientes.push_back(nuevo_cliente);
+	}
+}
+
+/*!
+ * Función para eliminar libros asignados a una persona.
+ * 
+ * \param dni        DNI de la persona.
+ * \param clientes   Vector de los clientes con libros.
+ * \param biblioteca Vector con los libros de la biblioteca.
+ * \param isbn       ISBN del libro a borrar.
+ * \return           booleano status borrado.
+ */
+bool EliminarLibroCliente(const Dni& dni, vector<Cliente>& clientes, const string& isbn)
+{
+	unsigned int poss_dni = 0; // Variables de función. 
+	int poss_isbn = 0;		   // Variables de función. 
+	
+	bool eliminado = false;	   // Variables de función.
+	bool encontrado = false;   // Variables de función.
+
+	if (DniExiste(dni, clientes, poss_dni))  // Comprobación de que el dni existe
+	{
+		for (unsigned int i = 0; i < clientes[poss_dni].libros.size(); i++) // Iteración sobre el vector de libros del cliente al que corresponde el DNI para hayar la posición del libro a eliminar.
+		{
+			if (clientes[poss_dni].libros[i].isbn == isbn) // Condición de libro encontrado.
+			{
+				poss_isbn = i;
+				encontrado = true;
+			}
+		}
+		if (encontrado)
+		{
+			clientes[poss_dni].libros.erase(clientes[poss_dni].libros.begin() + poss_isbn);
+			eliminado = true;
+			if (clientes[poss_dni].libros.size() < 1)
+			{
+				clientes.erase(clientes.begin() + poss_dni);
+			}
+		}
+	}
+	return eliminado;
+}
+
+/*!
  * Función de procesamiento de datos de vector bidimensional a vector de clientes.
  * 
  * \param bi_vector Vector bidimensional que contiene la información a procesar.
@@ -885,34 +1017,61 @@ void BVectorToClientes(const vector<vector<string>>& bi_vector, vector<Cliente>&
 
 	for (unsigned int i = 0; i < bi_vector.size(); i++) // Iteración sobre la primera dimensión del vector.
 	{
-		nuevo_cliente.dni.numero = stoi(bi_vector[i][0]);
-		for (unsigned int  j = 1; j < bi_vector[i].size(); j++) // Iteración sobre la segunda dimensión del vector.
+		if (!bi_vector[i].empty())
 		{
-			if      (contador == 0) nuevo_libro.ISBN            =                     bi_vector[i][j]  ; // Condición para la correcta creación del libro a leer.
-			else if (contador == 1) nuevo_libro.prestamo.dia    = unsigned short(stoi(bi_vector[i][j])); // Condición para la correcta creación del libro a leer.
-			else if (contador == 2) nuevo_libro.prestamo.mes    = unsigned short(stoi(bi_vector[i][j])); // Condición para la correcta creación del libro a leer.
-			else if (contador == 3) nuevo_libro.prestamo.anyo   =                stoi(bi_vector[i][j]) ; // Condición para la correcta creación del libro a leer.
-			else if (contador == 4) nuevo_libro.devolucion.dia  = unsigned short(stoi(bi_vector[i][j])); // Condición para la correcta creación del libro a leer.
-			else if (contador == 5) nuevo_libro.devolucion.mes  = unsigned short(stoi(bi_vector[i][j])); // Condición para la correcta creación del libro a leer.
-			else if (contador == 6) nuevo_libro.devolucion.anyo =                stoi(bi_vector[i][j]) ; // Condición para la correcta creación del libro a leer.
-
-			contador++; // Incremento de la variable contador.
-
-			if (contador == 7)
+			nuevo_cliente.dni.numero = stoi(bi_vector[i][0]);
+			for (unsigned int j = 1; j < bi_vector[i].size(); j++) // Iteración sobre la segunda dimensión del vector.
 			{
-				nuevo_cliente.libros.push_back(nuevo_libro);
-				contador = 0;
+				if (contador == 0) nuevo_libro.isbn = bi_vector[i][j]; // Condición para la correcta creación del libro a leer.
+				else if (contador == 1) nuevo_libro.prestamo.dia = unsigned short(stoi(bi_vector[i][j])); // Condición para la correcta creación del libro a leer.
+				else if (contador == 2) nuevo_libro.prestamo.mes = unsigned short(stoi(bi_vector[i][j])); // Condición para la correcta creación del libro a leer.
+				else if (contador == 3) nuevo_libro.prestamo.anyo = stoi(bi_vector[i][j]); // Condición para la correcta creación del libro a leer.
+				else if (contador == 4) nuevo_libro.devolucion.dia = unsigned short(stoi(bi_vector[i][j])); // Condición para la correcta creación del libro a leer.
+				else if (contador == 5) nuevo_libro.devolucion.mes = unsigned short(stoi(bi_vector[i][j])); // Condición para la correcta creación del libro a leer.
+				else if (contador == 6) nuevo_libro.devolucion.anyo = stoi(bi_vector[i][j]); // Condición para la correcta creación del libro a leer.
+
+				contador++; // Incremento de la variable contador.
+
+				if (contador == 7)
+				{
+					nuevo_cliente.libros.push_back(nuevo_libro);
+					contador = 0;
+				}
 			}
+			clientes.push_back(nuevo_cliente);
 		}
 	}
 }
 
-
+/*!
+ * Función para convertir el vector de clientes en un vector bidimensional.
+ * 
+ * \param clientes  Vector de clientes con la información.
+ * \param bi_vector Vector bidimensional de salida.
+ */
 void ClientesToBVector(const vector<Cliente>& clientes, vector<vector<string>>& bi_vector)
 {
+	vector<string> data; // Vector auxiliar.
 
+	for (unsigned int i = 0; i < clientes.size(); i++)     // Bucle para iterar todo el vector
+	{
+		data.push_back(to_string(clientes[i].dni.numero)); // Construcción de la primera dimensión del vector.
+		
+		for (unsigned int j = 0; j < clientes[i].libros.size(); j++)
+		{
+			data.push_back(clientes[i].libros[j].isbn);
+			data.push_back(to_string(clientes[i].libros[j].prestamo.dia   )); // Construcción de la primera dimensión del vector.
+			data.push_back(to_string(clientes[i].libros[j].prestamo.mes   )); // Construcción de la primera dimensión del vector.
+			data.push_back(to_string(clientes[i].libros[j].prestamo.anyo  )); // Construcción de la primera dimensión del vector.
+																			  // Construcción de la primera dimensión del vector.
+			data.push_back(to_string(clientes[i].libros[j].devolucion.dia )); // Construcción de la primera dimensión del vector.
+			data.push_back(to_string(clientes[i].libros[j].devolucion.mes )); // Construcción de la primera dimensión del vector.
+			data.push_back(to_string(clientes[i].libros[j].devolucion.anyo)); // Construcción de la primera dimensión del vector.
+		}
+		bi_vector.push_back(data); // Concatenación del vector en un vector bidimensional.
+		data.clear(); // Borrado de los datos de la "linea" para poder reutilizarla.
+	}
 }
-
 
 /*!
  * Función para determinar si el libro existe en base al isbn.
@@ -921,10 +1080,10 @@ void ClientesToBVector(const vector<Cliente>& clientes, vector<vector<string>>& 
  * \param  isbn       ISBN del libro a que se desea saber si existe.
  * \return true si el libro existe o false si no.
  */
-bool IsbnExist(const vector<Libro>& biblioteca, const string& isbn, int posicion)
+bool IsbnExist(const vector<Libro>& biblioteca, const string& isbn, int& posicion)
 {
 	bool existe = false; // Boleano que indica si el libro ha sido encontrado.
-
+	posicion = 0;
 	for (unsigned int i = 0; i < biblioteca.size() && !existe; i++) // Bucle que recorre el vector biblioteca hasta que encuentra el libro o bien este se acaba.
 	{
 		if (biblioteca[i].isbn == isbn) // Condición para que el libro exista.
@@ -946,7 +1105,7 @@ bool IsbnExist(const vector<Libro>& biblioteca, const string& isbn, int posicion
  * \param dni Struct de un DNI (numero + letra).
  * \return    Booleano indicando si el DNI es correcto.
  */
-bool DniCorrecto(Dni dni)
+bool DniCorrecto(const Dni& dni)
 {
 	bool correcto = false;
 
@@ -970,4 +1129,27 @@ char LetraDni(unsigned int numero)
 	return letras[unsigned int(numero % 23)];
 }
 // Verificación de dni correcto basado en datos proporcionados por el ministerio del interior.
+
+/*!
+ * Función para determinar si el dni existe en la "base de datos".
+ * 
+ * \param dni      DNI a buscar.
+ * \param clientes Vector de la información de los clientes.
+ * \return         Bool existencia del dni en el vector.
+ */
+bool DniExiste(const Dni& dni, const vector<Cliente>& clientes, unsigned int& poss)
+{
+	bool existe = false;
+	poss = 0;
+
+	for (unsigned int i = 0; i < clientes.size() && !existe; i++) // Itereación sobre el bucle.
+	{
+		if (clientes[i].dni.numero == dni.numero) // Comprobación de existencia.
+		{
+			existe = true; 
+			poss = i;      // Devolución de la posición del dni en el vector.
+		}
+	}
+	return existe;
+}
 // Fin funciones procesado de datos.
